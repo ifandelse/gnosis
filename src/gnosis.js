@@ -11,7 +11,7 @@
         });
     } else {
         // Browser globals
-        root.machina = factory(root);
+        root.gnosis = factory(root);
     }
 }(this, function(global, undefined) {
     var getKeys = function(target, options) {
