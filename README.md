@@ -6,7 +6,7 @@ Gnosis is a utility to traverse JavaScript objects, allowing you to pass a callb
 ##API
 It's pretty simple, since only one method exists currently: `gnosis.traverse(targetObject, transformCallback);`
 
-The `tranformCallback` argument is a function with the following signature: 
+The `transformCallback` argument is a function with the following signature: 
 
 ```javascript
 var cb = function(target, key, val, kind) {
@@ -69,3 +69,5 @@ me.family.push("Ian");
 */
 
 ```
+
+For a live demo of usage, see [this jsbin](http://jsbin.com/ludew/2/edit?js,output)
