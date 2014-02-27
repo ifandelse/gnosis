@@ -1,0 +1,29 @@
+{
+    "name": "gnosis",
+    "version": "0.0.1",
+    "description": "A utility to traverse an object and execute a callback to transform the object, etc.",
+    "homepage": "https://github.com/ifandelse/gnosis",
+    "keywords": [
+        "traverse",
+        "traversal",
+        "crawl",
+        "walk",
+        "object",
+        "graph"
+    ],
+    "author": "Jim Cowart <jim@ifandelse.com>",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/ifandelse/gnosis.git"
+    },
+    "main": [
+        "lib/gnosis.min.js",
+        "lib/gnosis.js"
+    ],
+    "devDependencies": {
+        "jquery": "~1.10.2",
+        "bootstrap": "~3.0.3",
+        "expect": "0.1.2",
+        "mocha": "~1.17.0"
+    }
+}
