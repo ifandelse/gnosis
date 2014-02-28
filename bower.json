@@ -1,6 +1,6 @@
 {
     "name": "gnosis",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A utility to traverse an object and execute a callback to transform the object, etc.",
     "homepage": "https://github.com/ifandelse/gnosis",
     "keywords": [

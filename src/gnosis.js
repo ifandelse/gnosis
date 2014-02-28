@@ -38,18 +38,23 @@
     };
 
     var nodeTypes = {
-        "traversable": function(target, key, kind, transformFn, options) {
+        "traversable": function(target, key, kind, transformFn, options, path) {
             var val = target[key];
-            transformFn(target, key, val, kind);
-            traverse(val, transformFn, options);
+            transformFn(target, key, val, kind, path);
+            traverse(val, transformFn, options, path);
         },
-        "simple": function(target, key, kind, transformFn, options) {
-            transformFn(target, key, target[key], kind);
+        "simple": function(target, key, kind, transformFn, options, path) {
+            transformFn(target, key, target[key], kind, path);
         }
     };
 
-    var traverse = function traverse(target, transformFn, options) {
+    var traverse = function traverse(target, transformFn, options, path) {
+        if (arguments.length === 3 && Object.prototype.toString.call(options) === "[object Array]") {
+            path = options;
+            options = {};
+        }
         options = options || {};
+        path = path || ["{ROOT}"];
         options.arrayProps = options.arrayProps || traverse.arrayProps;
         options.objectProps = options.objectProps || traverse.objectProps;
         var keys = getKeys(target, options);
@@ -61,7 +66,7 @@
             key = keys[idx];
             member = target[key];
             kind = getType(member);
-            nodeTypes[kind !== "array" && kind !== "object" ? "simple" : "traversable"](target, key, kind, transformFn, options);
+            nodeTypes[kind !== "array" && kind !== "object" ? "simple" : "traversable"](target, key, kind, transformFn, options, path.concat([key]));
             idx += 1;
         }
     };
