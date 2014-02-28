@@ -75,4 +75,4 @@ me.family.push("Ian");
 
 ```
 
-For a live demo of usage, see [this jsbin](http://jsbin.com/ludew/2/edit?js,output)
+For a live demo of usage, see [this jsbin](http://jsbin.com/ludew/3/edit?js,output)
