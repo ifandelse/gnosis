@@ -10,10 +10,10 @@ The `transformCallback` argument is a function with the following signature:
 
 ```javascript
 var cb = function(target, key, val, kind, path, root) {
-	// target is the object that owns the member we're on
-	// key is the member name
-	// val is the current value of target[key]
-	// kind is a string value indicating the type (array, object, string, date, regex, number, etc.)
+  // target is the object that owns the member we're on
+  // key is the member name
+  // val is the current value of target[key]
+  // kind is a string value indicating the type (array, object, string, date, regex, number, etc.)
   // path is an array tracing the keys from the {ROOT} (which is the first element in the array) down the object hierarchy.
   //      For example, if you have an array containing address objects, you might see a path like this:
   //      [{ROOT}, "addresses", "0", "street1"]
