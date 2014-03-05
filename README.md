@@ -1,10 +1,10 @@
-#Gnosis v0.0.2
+#Gnosis v0.1.0
 
 ##What is it?
 Gnosis is a utility to traverse JavaScript objects, allowing you to pass a callback to do something with each member of the object, etc. You can transform the object in place, or do anything else you need.
 
 ##API
-It's pretty simple, since only one method exists currently: `gnosis.traverse(targetObject, transformCallback);`
+It's pretty simple. The main method you're concerned with is: `gnosis.traverse(targetObject, transformCallback);`
 
 The `transformCallback` argument is a function with the following signature: 
 
@@ -38,7 +38,7 @@ gnosis.traverse(
   me,
   function (target, key, val, kind, path, root) {
     var v = val;
-    if(key === "push" && kind === "function" && traverse.getType(target) === "array") {
+    if(key === "push" && kind === "function" && gnosis.getType(target) === "array") {
       target[key] = function() {
         val.apply(target, arguments);
         window.postMessage("The value '" + arguments[0] + "' was pushed into the array.", "*");
