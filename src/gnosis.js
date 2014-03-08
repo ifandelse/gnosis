@@ -15,6 +15,25 @@
     }
 }(this, function(global, undefined) {
     var gExclude = ["_gTree", "rescan"];
+    var setValFromPath = function(root, path, val, setFn) {
+        var idx = 1;
+        var segments = path.split(".");
+        var len = segments.length;
+        var lastIdx = len - 1;
+        var target = root;
+        while (idx < len) {
+            if (idx !== lastIdx) {
+                target = target[segments[idx]];
+            } else {
+                if (!setFn) {
+                    target[segments[idx]] = val;
+                } else {
+                    setFn(target[segments[idx]], val);
+                }
+            }
+            idx += 1;
+        }
+    };
     var getKeys = function getKeys(target, options) {
         var keys = [];
         var kind = getType(target);
@@ -102,6 +121,7 @@
     traverse.exclude = gExclude;
     return {
         traverse: traverse,
-        getType: getType
+        getType: getType,
+        setValFromPath: setValFromPath
     };
 }));
