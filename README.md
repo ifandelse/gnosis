@@ -17,7 +17,7 @@ var cb = function(instance, key, val, meta, root) {
     meta is an object containing the following:
       {
         source    : OBJECT - The source of the property descriptor. This could
-                    be the instance for instance props OR a prorotype for things
+                    be the instance for instance props OR a prototype for things
                     like Array.prototype.push, etc. USE THIS WITH CAUTION!
         name      : STRING - The member name,
         descriptor: OBJECT - Result of calling Object.getOwnPropertyDescriptor(source, name),
