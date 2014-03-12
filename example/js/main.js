@@ -14,28 +14,32 @@ var me = {
 
 gnosis.traverse(
     me,
-    function(target, key, val, kind, path, root) {
+    function(target, key, val, meta, root) {
         var v = val;
-        if (key === "push" && kind === "function" && gnosis.getType(target) === "array") {
+        if (key === "push" && meta.type === "[object Function]" && Object.prototype.toString.call(target) === "[object Array]") {
             target[key] = function() {
                 val.apply(target, arguments);
-                writeToDom("The value '" + arguments[0] + "' was pushed into the array.", "*");
+                writeToDom("The value '" + arguments[0] + "' was pushed into the array.");
             };
-        } else {
+        } else if (key !== "length") {
             Object.defineProperty(target, key, {
                 enumerable: true,
                 configurable: true,
                 get: function() {
-                    var action = kind === "function" ? "invoked" : "read";
-                    writeToDom("The '" + key + "' " + kind + " was " + action + ".", "*");
+                    var action = meta.type === "[object Function]" ? "invoked" : "read";
+                    writeToDom("The '" + key + "' " + meta.type + " was " + action + ".");
                     return v;
                 },
                 set: function(x) {
                     v = x;
-                    writeToDom("The '" + key + "' value was set.", "*");
+                    writeToDom("The '" + key + "' value was set.");
                 }
             });
         }
+    },
+    "me", {
+        nonEnumerable: true,
+        walkPrototype: true
     }
 );
 
@@ -45,8 +49,9 @@ me.family.push("Ian");
 
 /*
  The following output will be generated:
+    The 'family' [object Array] was read.
     The 'name' value was set.
     The 'city' value was set.
-    The 'family' array was read.
+    The 'family' [object Array] was read.
     The value 'Ian' was pushed into the array.
 */
