@@ -35,7 +35,7 @@ var cb = function(instance, key, val, meta, root) {
 
 ##Example
 
-In the example below, we take a simple object and traverse it, forcing getters and setters on the members, and posting a message to the window with information about properties being read or written to (or in the case of `push` on the array, we find out if it was invoked, etc.).
+In the example below, we take a simple object and traverse it, forcing getters and setters on the members, and writing a message to the DOM with information about properties being read or written to (or in the case of `push` on the array, we find out if it was invoked, etc.).
 
 ```javascript
 
