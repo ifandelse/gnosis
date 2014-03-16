@@ -409,7 +409,6 @@
                         walkPrototype: true,
                         nonEnumerable: true
                     });
-                    console.log(result);
                 });
                 it("Should have traversed the name prop", function() {
                     expect(result["instance.name"].val).to.be("Doc Brown");
@@ -519,6 +518,81 @@
                     expect(result["instance.spouse.name"].meta.descriptor.enumerable).to.be(true);
                     expect(result["instance.spouse.name"].meta.descriptor.value).to.be("Clara Clayton");
                     expect(result["instance.spouse.name"].meta.descriptor.writable).to.be(true);
+                });
+            });
+        });
+        describe("When performing a diff traversal", function() {
+            var instance;
+            var result = {};
+            before(function() {
+                instance = {
+                    name: "Marty",
+                    year: 1985,
+                    skateboard: true
+                };
+                gnosis.traverse(instance, function(target, key, val, meta, root) {
+                    result[meta.path] = {
+                        target: target,
+                        key: key,
+                        val: val,
+                        meta: meta,
+                        root: root
+                    }
+                }, "instance", {
+                    trackState: true
+                });
+                console.log(instance);
+            });
+            describe("When adding new properties", function() {
+                it("Should traverse newly added props on a diff traversal", function() {
+                    expect(result["instance.name"].val).to.be("Marty");
+                    expect(result["instance.year"].val).to.be(1985);
+                    expect(result["instance.skateboard"].val).to.be(true);
+                    expect(result.hasOwnProperty("instance.lastName")).to.be(false);
+                    instance.lastName = "McFly";
+                    gnosis.traverseDiff(instance);
+                    expect(result["instance.lastName"].val).to.be("McFly");
+                    expect(result["instance.lastName"].key).to.be("lastName");
+                    expect(result["instance.lastName"].target).to.be(instance);
+                    expect(result["instance.lastName"].root).to.be(instance);
+                    expect(result["instance.lastName"].meta.level).to.be(0);
+                    expect(result["instance.lastName"].meta.path).to.be("instance.lastName");
+                    expect(result["instance.lastName"].meta.type).to.be("[object String]");
+                    expect(result["instance.lastName"].meta.source).to.be(instance);
+                    expect(result["instance.lastName"].meta.descriptor.configurable).to.be(true);
+                    expect(result["instance.lastName"].meta.descriptor.enumerable).to.be(true);
+                    expect(result["instance.lastName"].meta.descriptor.value).to.be("McFly");
+                    expect(result["instance.lastName"].meta.descriptor.writable).to.be(true);
+                });
+            });
+            describe("When changing an existing property type", function() {
+                it("Should traverse props with changed types on a diff traversal", function() {
+                    expect(result["instance.year"].val).to.be(1985);
+                    expect(result["instance.year"].key).to.be("year");
+                    expect(result["instance.year"].target).to.be(instance);
+                    expect(result["instance.year"].root).to.be(instance);
+                    expect(result["instance.year"].meta.level).to.be(0);
+                    expect(result["instance.year"].meta.path).to.be("instance.year");
+                    expect(result["instance.year"].meta.type).to.be("[object Number]");
+                    expect(result["instance.year"].meta.source).to.be(instance);
+                    expect(result["instance.year"].meta.descriptor.configurable).to.be(true);
+                    expect(result["instance.year"].meta.descriptor.enumerable).to.be(true);
+                    expect(result["instance.year"].meta.descriptor.value).to.be(1985);
+                    expect(result["instance.year"].meta.descriptor.writable).to.be(true);
+                    instance.year = "1985";
+                    gnosis.traverseDiff(instance);
+                    expect(result["instance.year"].val).to.be("1985");
+                    expect(result["instance.year"].key).to.be("year");
+                    expect(result["instance.year"].target).to.be(instance);
+                    expect(result["instance.year"].root).to.be(instance);
+                    expect(result["instance.year"].meta.level).to.be(0);
+                    expect(result["instance.year"].meta.path).to.be("instance.year");
+                    expect(result["instance.year"].meta.type).to.be("[object String]");
+                    expect(result["instance.year"].meta.source).to.be(instance);
+                    expect(result["instance.year"].meta.descriptor.configurable).to.be(true);
+                    expect(result["instance.year"].meta.descriptor.enumerable).to.be(true);
+                    expect(result["instance.year"].meta.descriptor.value).to.be("1985");
+                    expect(result["instance.year"].meta.descriptor.writable).to.be(true);
                 });
             });
         });
