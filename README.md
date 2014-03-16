@@ -82,11 +82,11 @@ me.family.push("Ian");
 
 /*
  The following output would be generated:
-	The 'family' [object Array] was read.
-  The 'name' value was set.
-  The 'city' value was set.
-  The 'family' [object Array] was read.
-  The value 'Ian' was pushed into the array.
+    The 'family' [object Array] was read.
+    The 'name' value was set.
+    The 'city' value was set.
+    The 'family' [object Array] was read.
+    The value 'Ian' was pushed into the array.
 */
 
 ```
