@@ -274,6 +274,86 @@
                     expect(result["instance.car"].meta.descriptor.writable).to.be(false);
                 });
             });
+            describe("And using dontwalk", function() {
+                var result = {};
+                before(function() {
+                    instance.years = [1885, 1955, 1985];
+                    gnosis.traverse(instance, function(target, key, val, meta, root) {
+                        result[meta.path] = {
+                            target: target,
+                            key: key,
+                            val: val,
+                            meta: meta,
+                            root: root
+                        }
+                    }, "instance", {
+                        walkPrototype: true,
+                        nonEnumerable: true,
+                        dontwalk: [Array.prototype, Object.prototype]
+                    });
+                });
+
+                it("Should have traversed the years prop", function() {
+                    expect(result["instance.years"].val).to.be(instance.years);
+                    expect(result["instance.years"].key).to.be("years");
+                    expect(result["instance.years"].target).to.be(instance);
+                    expect(result["instance.years"].root).to.be(instance);
+                    expect(result["instance.years"].meta.level).to.be(0);
+                    expect(result["instance.years"].meta.path).to.be("instance.years");
+                    expect(result["instance.years"].meta.type).to.be("[object Array]");
+                    expect(result["instance.years"].meta.source).to.be(instance);
+                    expect(result["instance.years"].meta.descriptor.configurable).to.be(true);
+                    expect(result["instance.years"].meta.descriptor.enumerable).to.be(true);
+                    expect(result["instance.years"].meta.descriptor.value).to.be(instance.years);
+                    expect(result["instance.years"].meta.descriptor.writable).to.be(true);
+
+                    expect(result["instance.years.0"].val).to.be(1885);
+                    expect(result["instance.years.0"].key).to.be("0");
+                    expect(result["instance.years.0"].target).to.be(instance.years);
+                    expect(result["instance.years.0"].root).to.be(instance);
+                    expect(result["instance.years.0"].meta.level).to.be(0);
+                    expect(result["instance.years.0"].meta.path).to.be("instance.years.0");
+                    expect(result["instance.years.0"].meta.type).to.be("[object Number]");
+                    expect(result["instance.years.0"].meta.source).to.be(instance.years);
+                    expect(result["instance.years.0"].meta.descriptor.configurable).to.be(true);
+                    expect(result["instance.years.0"].meta.descriptor.enumerable).to.be(true);
+                    expect(result["instance.years.0"].meta.descriptor.value).to.be(1885);
+                    expect(result["instance.years.0"].meta.descriptor.writable).to.be(true);
+
+                    expect(result["instance.years.1"].val).to.be(1955);
+                    expect(result["instance.years.1"].key).to.be("1");
+                    expect(result["instance.years.1"].target).to.be(instance.years);
+                    expect(result["instance.years.1"].root).to.be(instance);
+                    expect(result["instance.years.1"].meta.level).to.be(0);
+                    expect(result["instance.years.1"].meta.path).to.be("instance.years.1");
+                    expect(result["instance.years.1"].meta.type).to.be("[object Number]");
+                    expect(result["instance.years.1"].meta.source).to.be(instance.years);
+                    expect(result["instance.years.1"].meta.descriptor.configurable).to.be(true);
+                    expect(result["instance.years.1"].meta.descriptor.enumerable).to.be(true);
+                    expect(result["instance.years.1"].meta.descriptor.value).to.be(1955);
+                    expect(result["instance.years.1"].meta.descriptor.writable).to.be(true);
+
+                    expect(result["instance.years.2"].val).to.be(1985);
+                    expect(result["instance.years.2"].key).to.be("2");
+                    expect(result["instance.years.2"].target).to.be(instance.years);
+                    expect(result["instance.years.2"].root).to.be(instance);
+                    expect(result["instance.years.2"].meta.level).to.be(0);
+                    expect(result["instance.years.2"].meta.path).to.be("instance.years.2");
+                    expect(result["instance.years.2"].meta.type).to.be("[object Number]");
+                    expect(result["instance.years.2"].meta.source).to.be(instance.years);
+                    expect(result["instance.years.2"].meta.descriptor.configurable).to.be(true);
+                    expect(result["instance.years.2"].meta.descriptor.enumerable).to.be(true);
+                    expect(result["instance.years.2"].meta.descriptor.value).to.be(1985);
+                    expect(result["instance.years.2"].meta.descriptor.writable).to.be(true);
+                });
+                it("Should NOT have traversed Array.prototype", function() {
+                    Object.getOwnPropertyNames(Array.prototype).forEach(function(key) {
+                        if (["length", "constructor", "toString", "toLocaleString"].indexOf(key) === -1) {
+                            expect(result.hasOwnProperty("instance.years." + key)).to.not.be.ok();
+                        }
+                    });
+                });
+            });
         });
         describe("When traversing an object with depth nodes", function() {
             var instance;

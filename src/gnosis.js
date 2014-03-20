@@ -30,6 +30,7 @@
         "toString",
         "toLocaleString"
     ];
+    var dontwalk = [];
 
     function setValFromPath(root, path, val, setFn) {
         var idx = 1;
@@ -50,6 +51,11 @@
             idx += 1;
         }
     };
+
+    function _getPrototypeOf(obj, dontwalk) {
+        var proto = Object.getPrototypeOf(obj);
+        return dontwalk.indexOf(proto) !== -1 ? undefined : proto;
+    }
 
     function buildMeta(obj, path, options, level, accum, cb, root, instance) {
         instance = instance || obj;
@@ -81,8 +87,8 @@
                 }
             });
         }
-        if (obj && options.walkPrototype) {
-            buildMeta(Object.getPrototypeOf(obj), path, options, level + 1, accum, cb, root, obj);
+        if (obj && options.walkPrototype && (proto = _getPrototypeOf(obj, options.dontwalk || dontwalk))) {
+            buildMeta(proto, path, options, level + 1, accum, cb, root, obj);
         }
     }
 
@@ -115,10 +121,11 @@
     }
 
     return {
+        dontwalk: dontwalk,
         depthNodes: depthNodes,
         exclusion: exclusion,
+        setValFromPath: setValFromPath,
         traverse: traverse,
-        traverseDiff: traverseDiff,
-        setValFromPath: setValFromPath
+        traverseDiff: traverseDiff
     };
 }));
